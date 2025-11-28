@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pràctica 2 — Sessió 1</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 860px; margin: 24px auto; text-align: center; }
+    a { display: inline-block; margin: 12px; text-decoration: none; color: #111; }
+    img { display: block; width: 360px; height: 200px; object-fit: cover; margin: 0 auto 8px; border: 1px solid #ccc; border-radius: 10px; }
+    .counter { font-weight: 700; margin-left: 6px; }
+    footer { margin-top: 16px; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>Pràctica 2 — Sistemes Distribuïts (Sessió 1)</h1>
+
+  <!-- 1a -->
+  <a href="map-centre.html" target="_blank" data-key="center">
+    <img src="https://i0.wp.com/www.myworldinonepic.com/wp-content/uploads/2017/12/IMG_9861-scaled.jpg?resize=780%2C1170&ssl=1" alt="Ajuntament de Terrassa">
+    Centre — Ajuntament de Terrassa
+    <span class="counter" data-counter="center">0</span>
+  </a>
+
+  <!-- 1b -->
+  <a href="map-geo.html" target="_blank" data-key="geo">
+    <img src="https://media.istockphoto.com/id/1308342065/es/vector/mapa-de-ubicaci%C3%B3n-doblado-con-marcador-mapa-de-la-ciudad-con-puntero-pin-mapa-de-navegaci%C3%B3n.jpg?s=612x612&w=0&k=20&c=WJDCd2E3XInstZgw0jk-5k3GHYibObrxJnYxZBvwstk=" alt="Geolocalització">
+    Geolocalització
+    <span class="counter" data-counter="geo">0</span>
+  </a>
+
+  <p style="margin-top:10px">
+    Pàgina 2a (lloc d’interès): <a href="map-interest.html" target="_blank">obrir mapa</a>
+  </p>
+
+  <footer>Autor: Álvaro Gimeno i Pau Adín · Sessió 1</footer>
+
+  <script>
+    // --- Comptadors molt bàsics amb localStorage ---
+    function getCount(key) {
+      return parseInt(localStorage.getItem(key) || '0', 10);
+    }
+
+    // --- Funció per guardar el valor d'un comptador al navegador ---
+    function setCount(key, val) {
+      // Desa un valor (val) dins del localStorage amb el nom (key)
+      localStorage.setItem(key, String(val));
+    }
+
+    // --- Funció per actualitzar (pintar) els comptadors a la pantalla ---
+    function paintCounters() {
+      // Selecciona tots els elements HTML que tinguin l'atribut data-counter
+      document.querySelectorAll('[data-counter]').forEach(span => {
+        // Llegeix el nom (key) del comptador (ex: "center", "geo")
+        const key = span.getAttribute('data-counter');
+        // Mostra a la pantalla el número actual que hi ha guardat al navegador
+        span.textContent = getCount(key);
+      });
+    }
+
+    // --- Crida la funció per mostrar els comptadors correctes quan s'obre la pàgina ---
+    paintCounters();
+
+    // --- Cada cop que fem clic en una imatge/enllaç, s'incrementa el seu comptador ---
+    document.querySelectorAll('a[data-key]').forEach(a => {
+      // Afegim un "listener" que escolta quan es fa clic a cada enllaç
+      a.addEventListener('click', function () {
+        // Llegeix quin comptador hem de modificar (key)
+        const key = a.getAttribute('data-key');
+        // Agafa el valor actual, li suma 1 i el desa de nou
+        setCount(key, getCount(key) + 1);
+        // Actualitza els números visibles a la pantalla
+        paintCounters();
+      });
+    });
+  </script>
+</body>
+</html>
+
+
